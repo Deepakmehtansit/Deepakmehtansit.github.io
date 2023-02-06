@@ -1,0 +1,50 @@
+{
+    "_id" : ObjectId("61dd2dd8de82aa9e06c29933"),
+    "up_id" : "d482e687-3748-4af5-ad1b-f9f7bbdbd63b",
+    "uid" : "ea3f5e0b-50a0-4203-b214-944b96d65603",
+    "plan_id" : "P_0002",
+    "module_id" : "M_0001",
+    "start_date" : "2022-01-10",
+    "end_date" : "2022-02-10",
+    "status" : "active",
+    "control_data" : {
+        "C_0003" : {
+            "control_threshold" : "25",
+            "update_date" : "2022-01-11"
+        },
+        "C_0006" : {
+            "control_threshold" : "0",
+            "update_date" : "2022-01-11"
+        },
+        "C_0001" : {
+            "control_threshold" : "0",
+            "update_date" : "2022-01-11"
+        },
+        "C_0005" : {
+            "control_threshold" : "0",
+            "update_date" : "2022-01-11"
+        },
+        "C_0002" : {
+            "control_threshold" : "25",
+            "update_date" : "2022-01-11"
+        },
+        "C_0004" : {
+            "control_threshold" : "0",
+            "update_date" : "2022-01-11"
+        }
+    },
+    "created_by" : "stripe api",
+    "updated_by" : "stripe api",
+    "update_state" : "upgrade",
+    "remark" : "stripe api",
+    "created_datetime" : ISODate("2022-01-11T12:42:23.000Z"),
+    "updated_datetime" : ISODate("2022-01-11T12:42:23.000Z"),
+    "subscription" : {
+        "customer_id" : "cus_Kv7oBdnksrMrsH",
+        "subscription_id" : "sub_1KFHZ2SItMZdzh6GbFv5lS4l",
+        "start_period" : "2022-01-10",
+        "end_period" : "2022-02-10",
+        "price_id" : "price_1JdCoeSItMZdzh6GW0TWP9IL",
+        "product_id" : "prod_KHmNJRiv30BUJZ"
+    }
+}s
