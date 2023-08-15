@@ -1,0 +1,85 @@
+server {
+    listen 443;
+    server_name 65.0.1.230;
+    rewrite ^/$ https://65.0.1.230/_dashboards redirect;
+
+    ssl_certificate           /etc/nginx/cert.crt;
+    ssl_certificate_key       /etc/nginx/cert.key;
+
+    ssl on;
+    ssl_session_cache  builtin:1000  shared:SSL:10m;
+    ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
+    ssl_prefer_server_ciphers on;
+
+
+    location ^~ /_dashboards {
+        # Forward requests to Kibana
+        #proxy_pass https://vpc-pokeify-es-qqlibnffmbnfr4szijyb3hd6i4.ap-south-1.es.amazonaws.com/_plugin/dashboards;
+        proxy_pass https://vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com/_dashboards;
+        # Handle redirects to Amazon Cognito
+        #proxy_redirect https://pokeifykibana.auth.ap-south-1.amazoncognito.com https://65.0.1.230;
+        proxy_redirect https://pokeifykibana.auth.ap-south-1.amazoncognito.com https://65.0.1.230;
+
+        # Update cookie domain and path
+        #proxy_cookie_domain vpc-pokeify-es-qqlibnffmbnfr4szijyb3hd6i4.ap-south-1.es.amazonaws.com 65.0.1.230;
+        proxy_cookie_domain vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com 65.0.1.230;
+        proxy_set_header Accept-Encoding "";
+        sub_filter_types *;
+        #sub_filter vpc-pokeify-es-qqlibnffmbnfr4szijyb3hd6i4.ap-south-1.es.amazonaws.com 65.0.1.230;
+        sub_filter vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com 65.0.1.230;
+        sub_filter_once off;
+
+        # Response buffer settings
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+    }
+
+    location ~ \/(log|sign|error|fav|forgot|change|confirm) {
+        # Forward requests to Cognito
+        proxy_pass https://pokeifykibana.auth.ap-south-1.amazoncognito.com;
+		# Handle redirects to Kibana
+        #proxy_redirect https://vpc-pokeify-es-qqlibnffmbnfr4szijyb3hd6i4.ap-south-1.es.amazonaws.com https://65.0.1.230;
+        proxy_redirect https://vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com https://65.0.1.230;
+        # Handle redirects to Amazon Cognito
+        proxy_redirect https://pokeifykibana.auth.ap-south-1.amazoncognito.com https://65.0.1.230;
+sudo amazon-linux-extras install nginx1
+        # Update cookie domain
+        proxy_cookie_domain pokeifykibana.auth.ap-south-1.amazoncognito.com 65.0.1.230;
+    }
+}
+
+
+
+
+sudo yum update
+
+sudo yum install nginx
+
+sudo amazon-linux-extras install nginx1
+
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/cert.key -out /etc/nginx/cert.crt
+
+cd /etc/nginx/conf.d/
+
+sudo vi default.conf
+
+sudo service nginx restart
+
+sudo vi /etc/nginx/conf.d/default.conf
+
+
+to get all snashots
+curl -XGET 'https://vpc-pokeify-es-qqlibnffmbnfr4szijyb3hd6i4.ap-south-1.es.amazonaws.com/_snapshot?pretty'
+
+curl -XGET "https://vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com/_snapshot?pretty"
+
+curl -XGET "https://vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com/_snapshot/s3/_all/?pretty"
+
+curl -XGET "https://vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com/_snapshot/cs-automated/_all/?pretty"
+
+restore single indices
+
+curl -XPOST 'https://vpc-pokeifyes-prr4vbcttgcjfxovt24yakcigu.ap-south-1.es.amazonaws.com/_snapshot/cs-automated/2021-12-21t04-29-04.1e26aa23-3fb4-43ad-b5b7-2b471984464a/_restore' -d '{"indices": "user_discover"}' -H 'Content-Type: application/json'
+
